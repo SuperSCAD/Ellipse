@@ -1,3 +1,6 @@
+from lib2to3.fixes.fix_input import context
+
+from super_scad.scad.Context import Context
 from super_scad.scad.Scad import Scad
 from super_scad.scad.Unit import Unit
 
@@ -18,7 +21,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.MM)
+        scad = Scad(context=Context())
         ellipsoid = Ellipsoid(radius_x=30.0, radius_y=20.0, radius_z=10.0)
 
         self.assertAlmostEqual(30.0, ellipsoid.radius_x)
@@ -44,7 +47,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.MM)
+        scad = Scad(context=Context())
         ellipsoid = Ellipsoid(diameter_x=30.0, diameter_y=20.0, diameter_z=10.0)
 
         self.assertAlmostEqual(15.0, ellipsoid.radius_x)
@@ -70,7 +73,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.MM)
+        scad = Scad(context=Context())
         ellipsoid = Ellipsoid(radius_x=30.0, radius_y=20.0, radius_z=10.0, fn4n=True)
 
         self.assertAlmostEqual(30.0, ellipsoid.radius_x)
@@ -97,7 +100,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.MM)
+        scad = Scad(context=Context())
         ellipsoid = Ellipsoid(diameter_x=30.0, diameter_y=20.0, diameter_z=10.0, fa=12.0, fs=2.0, fn=0)
 
         self.assertAlmostEqual(15.0, ellipsoid.radius_x)
@@ -124,7 +127,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.MM)
+        scad = Scad(context=Context())
         ellipsoid = ImperialEllipsoid(radius_x=30.0, radius_y=20.0, radius_z=10.0, fa=12.0, fs=2.0, fn=0)
         scad.run_super_scad(ellipsoid, path_actual)
 
@@ -149,7 +152,7 @@ class EllipsoidTestCase(ScadTestCase):
         """
         path_actual, path_expected = self.paths()
 
-        scad = Scad(unit_length_final=Unit.INCH)
+        scad = Scad(context=Context(unit_length_final=Unit.INCH))
         ellipsoid = ImperialEllipsoid(radius_x=30.0, radius_y=20.0, radius_z=10.0, fa=12.0, fs=2.0, fn=0)
         scad.run_super_scad(ellipsoid, path_actual)
 

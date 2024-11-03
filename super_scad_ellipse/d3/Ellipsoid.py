@@ -3,7 +3,7 @@ from super_scad.scad.ArgumentAdmission import ArgumentAdmission
 from super_scad.scad.Context import Context
 from super_scad.scad.ScadWidget import ScadWidget
 from super_scad.transformation.Resize3D import Resize3D
-from super_scad.type.Size3 import Size3
+from super_scad.type.Vector3 import Vector3
 from super_scad.util.Radius2Sides4n import Radius2Sides4n
 
 
@@ -37,7 +37,7 @@ class Ellipsoid(ScadWidget):
         :param fa: The minimum angle (in degrees) of each fragment.
         :param fs: The minimum circumferential length of each fragment.
         :param fn: The fixed number of fragments in 360 degrees. Values of 3 or more override fa and fs.
-        :param fn4n: Whether to create a circle with a ellipsoid of 4 vertices.
+        :param fn4n: Whether to create a circle with an ellipsoid of 4 vertices.
         """
         ScadWidget.__init__(self, args=locals())
 
@@ -141,7 +141,7 @@ class Ellipsoid(ScadWidget):
         Returns the real fixed number of fragments in 360 degrees.
         """
         if self.fn4n:
-            return Radius2Sides4n.r2sides4n(max(self.radius_x, self.radius_y, self.radius_z), context)
+            return Radius2Sides4n.r2sides4n(context, max(self.radius_x, self.radius_y, self.radius_z))
 
         return self.fn
 
@@ -154,7 +154,7 @@ class Ellipsoid(ScadWidget):
         """
         diameter: float = max(self.diameter_x, self.diameter_y, self.diameter_z)
 
-        return Resize3D(new_size=Size3(self.diameter_x, self.diameter_y, self.diameter_z),
+        return Resize3D(new_size=Vector3(self.diameter_x, self.diameter_y, self.diameter_z),
                         child=Sphere(diameter=diameter, fa=self.fa, fs=self.fs, fn=self.real_fn(context)))
 
 # ----------------------------------------------------------------------------------------------------------------------

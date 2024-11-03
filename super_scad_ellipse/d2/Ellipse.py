@@ -3,7 +3,7 @@ from super_scad.scad.ArgumentAdmission import ArgumentAdmission
 from super_scad.scad.Context import Context
 from super_scad.scad.ScadWidget import ScadWidget
 from super_scad.transformation.Resize2D import Resize2D
-from super_scad.type.Size2 import Size2
+from super_scad.type.Vector2 import Vector2
 
 
 class Ellipse(ScadWidget):
@@ -25,8 +25,8 @@ class Ellipse(ScadWidget):
         """
         Object constructor.
 
-        param radius_x: The radius of the ellipsis along the x-axis.
-        param radius_y: The radius of the ellipsis along the y-axis.
+        :param radius_x: The radius of the ellipsis along the x-axis.
+        :param radius_y: The radius of the ellipsis along the y-axis.
         :param diameter_x: The diameter of the ellipsis along the x-axis.
         :param diameter_x: The diameter of the ellipsis along the y-axis.
         :param fa: The minimum angle (in degrees) of each fragment.
@@ -120,7 +120,7 @@ class Ellipse(ScadWidget):
         """
         diameter: float = max(self.diameter_x, self.diameter_y)
 
-        return Resize2D(new_size=Size2(self.diameter_x, self.diameter_y),
+        return Resize2D(new_size=Vector2(self.diameter_x, self.diameter_y),
                         child=Circle(diameter=diameter, fa=self.fa, fs=self.fs, fn=self.fn, fn4n=self.fn4n))
 
 # ----------------------------------------------------------------------------------------------------------------------

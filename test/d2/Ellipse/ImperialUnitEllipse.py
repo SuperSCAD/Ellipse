@@ -2,7 +2,7 @@ from super_scad.scad.Context import Context
 from super_scad.scad.ScadWidget import ScadWidget
 from super_scad.scad.Unit import Unit
 
-from super_scad_ellipse.d0.Ellipse import Ellipse
+from super_scad_ellipse.d2.Ellipse import Ellipse
 
 
 class ImperialUnitEllipse(ScadWidget):

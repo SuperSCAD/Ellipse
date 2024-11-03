@@ -22,12 +22,12 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10.0"
-super-scad = "^0.4.0"
+super-scad = "^0.8.1"
 
 [tool.poetry.group.dev.dependencies]
-coverage = "^7.5.4"
-sphinx = "^7.3.7"
-sphinx-rtd-theme = "^2.0.0"
+coverage = "^7.6.4"
+sphinx = "^8.1.3"
+sphinx-rtd-theme = "^3.0.1"
 
 [build-system]
 requires = ["poetry-core"]
