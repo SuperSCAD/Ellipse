@@ -1,5 +1,7 @@
+from typing import Any, Dict
+
 from super_scad.d2.Circle import Circle
-from super_scad.scad.ArgumentAdmission import ArgumentAdmission
+from super_scad.scad.ArgumentValidator import ArgumentValidator
 from super_scad.scad.Context import Context
 from super_scad.scad.ScadWidget import ScadWidget
 from super_scad.transformation.Resize2D import Resize2D
@@ -34,18 +36,61 @@ class Ellipse(ScadWidget):
         :param fn: The fixed number of fragments in 360 degrees. Values of 3 or more override fa and fs.
         :param fn4n: Whether to create an ellipse with a multiple of 4 vertices.
         """
-        ScadWidget.__init__(self, args=locals())
+        ScadWidget.__init__(self)
+
+        self._radius_x: float | None = radius_x
+        """
+        The radius of the ellipse along the x-axis.
+        """
+
+        self._radius_y: float | None = radius_y
+        """
+        The radius of the ellipse along the y-axis.
+        """
+
+        self._diameter_x: float | None = diameter_x
+        """
+        The diameter of the ellipse along the x-axis.
+        """
+
+        self._diameter_y: float | None = diameter_y
+        """
+        The diameter of the ellipse along the y-axis.
+        """
+
+        self._fa: float | None = fa
+        """
+        The minimum angle (in degrees) of each fragment.
+        """
+
+        self._fs: float | None = fs
+        """
+        The minimum circumferential length of each fragment.
+        """
+
+        self._fn: int | None = fn
+        """
+        The fixed number of fragments in 360 degrees. Values of 3 or more override fa and fs.
+        """
+
+        self._fn4n: bool | None = fn4n
+        """
+        Whether to create an ellipse with a multiple of 4 vertices.
+        """
+
+        self.__validate_arguments(locals())
 
     # ------------------------------------------------------------------------------------------------------------------
-    def _validate_arguments(self) -> None:
+    @staticmethod
+    def __validate_arguments(args: Dict[str, Any]) -> None:
         """
         Validates the arguments supplied to the constructor of this SuperSCAD widget.
         """
-        admission = ArgumentAdmission(self._args)
-        admission.validate_exclusive({'radius_x'}, {'diameter_x'})
-        admission.validate_exclusive({'radius_y'}, {'diameter_y'})
-        admission.validate_exclusive({'fn4n'}, {'fa', 'fs', 'fn'})
-        admission.validate_required({'radius_x', 'diameter_x'}, {'radius_y', 'diameter_y'})
+        validator = ArgumentValidator(args)
+        validator.validate_exclusive({'radius_x'}, {'diameter_x'})
+        validator.validate_exclusive({'radius_y'}, {'diameter_y'})
+        validator.validate_exclusive({'fn4n'}, {'fa', 'fs', 'fn'})
+        validator.validate_required({'radius_x', 'diameter_x'}, {'radius_y', 'diameter_y'})
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -53,7 +98,10 @@ class Ellipse(ScadWidget):
         """
         Returns the radius of the ellipsis in x-direction.
         """
-        return self.uc(self._args.get('radius_x', 0.5 * self._args.get('diameter_x', 0.0)))
+        if self._radius_x is None:
+            self._radius_x = 0.5 * self._diameter_x
+
+        return self._radius_x
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -61,7 +109,10 @@ class Ellipse(ScadWidget):
         """
         Returns the radius of the ellipsis in y-direction.
         """
-        return self.uc(self._args.get('radius_y', 0.5 * self._args.get('diameter_y', 0.0)))
+        if self._radius_y is None:
+            self._radius_y = 0.5 * self._diameter_y
+
+        return self._radius_y
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -69,7 +120,10 @@ class Ellipse(ScadWidget):
         """
         Returns the length of the ellipsis in x-direction.
         """
-        return self.uc(self._args.get('diameter_x', 2.0 * self._args.get('radius_x', 0.0)))
+        if self._diameter_x is None:
+            self._diameter_x = 2.0 * self._radius_x
+
+        return self._diameter_x
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -77,7 +131,10 @@ class Ellipse(ScadWidget):
         """
         Returns the length of the ellipsis in y-direction.
         """
-        return self.uc(self._args.get('diameter_y', 2.0 * self._args.get('radius_y', 0.0)))
+        if self._diameter_y is None:
+            self._diameter_y = 2.0 * self._radius_y
+
+        return self._diameter_y
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -85,7 +142,7 @@ class Ellipse(ScadWidget):
         """
         Returns the minimum angle (in degrees) of each fragment.
         """
-        return self._args.get('fa')
+        return self._fa
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -93,7 +150,7 @@ class Ellipse(ScadWidget):
         """
         Returns the minimum circumferential length of each fragment.
         """
-        return self.uc(self._args.get('fs'))
+        return self._fs
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -101,7 +158,7 @@ class Ellipse(ScadWidget):
         """
         Returns the fixed number of fragments in 360 degrees. Values of 3 or more override $fa and $fs.
         """
-        return self._args.get('fn')
+        return self._fn
 
     # ------------------------------------------------------------------------------------------------------------------
     @property
@@ -109,7 +166,7 @@ class Ellipse(ScadWidget):
         """
         Returns whether to create a circle with multiple of 4 vertices.
         """
-        return self._args.get('fn4n')
+        return self._fn4n
 
     # ------------------------------------------------------------------------------------------------------------------
     def build(self, context: Context) -> ScadWidget:

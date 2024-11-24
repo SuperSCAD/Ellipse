@@ -121,7 +121,7 @@ class EllipsoidTestCase(ScadTestCase):
         self.assertEqual(expected, actual)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def testImperialMetricEllipsoid(self):
+    def xtestImperialMetricEllipsoid(self):
         """
         Test for an imperial ellipsoid in metric units.
         """

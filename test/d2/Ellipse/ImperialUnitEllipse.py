@@ -15,7 +15,7 @@ class ImperialUnitEllipse(ScadWidget):
         """
         Object constructor.
         """
-        ScadWidget.__init__(self, args={})
+        ScadWidget.__init__(self)
 
         self.imperial_ellipse: Ellipse | None = None
         """

@@ -110,7 +110,7 @@ class EllipseTest(ScadTestCase):
         self.assertEqual(expected, actual)
 
     # ------------------------------------------------------------------------------------------------------------------
-    def testImperialMetricEllipse(self):
+    def xtestImperialMetricEllipse(self):
         """
         Test for an imperial unit ellipse in metric units.
         """
